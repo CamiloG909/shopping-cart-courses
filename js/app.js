@@ -3,16 +3,27 @@ const cart = document.querySelector(".cart");
 const containerCart = document.querySelector("#list-cart tbody");
 const clearCartBtn = document.querySelector("#clear-cart");
 const listCourses = document.querySelector("#list-courses");
-let arrayInfo = [];
+let arrayInfo;
 
 loadEventListeners();
 
 function loadEventListeners() {
+	document.addEventListener("DOMContentLoaded", loadCoursesCart);
 	showCartBtn.addEventListener("click", showCartBox);
 
 	listCourses.addEventListener("click", addCourse);
 	clearCartBtn.addEventListener("click", clearCartButton);
 	cart.addEventListener("click", deleteCourse);
+}
+
+function loadCoursesCart() {
+	if (localStorage.getItem("courses") === null) {
+		arrayInfo = [];
+		localStorage.setItem("courses", "[]");
+	} else {
+		arrayInfo = JSON.parse(localStorage.getItem("courses"));
+		showCourses();
+	}
 }
 
 function showCartBox() {
@@ -50,7 +61,7 @@ function getInfoCourse(card) {
 	const exists = arrayInfo.some((e) => e.id === infoCourse.id);
 
 	if (exists) {
-		const curses = arrayInfo.map((e) => {
+		arrayInfo = arrayInfo.map((e) => {
 			if (e.id === infoCourse.id) {
 				e.amount++;
 				return e;
@@ -61,12 +72,12 @@ function getInfoCourse(card) {
 	} else {
 		arrayInfo.push(infoCourse);
 	}
-
-	showCourse();
+	syncStorage();
+	showCourses();
 }
 
-function showCourse() {
-	clearCartContainer();
+function showCourses() {
+	containerCart.innerHTML = "";
 
 	arrayInfo.forEach((e) => {
 		const row = document.createElement("tr");
@@ -83,22 +94,23 @@ function showCourse() {
 	});
 }
 
-function clearCartContainer() {
+function clearCartButton() {
+	arrayInfo = [];
+	localStorage.setItem("courses", "[]");
 	containerCart.innerHTML = "";
 }
 
-function clearCartButton(e) {
-	e.preventDefault();
-	arrayInfo = [];
-	clearCartContainer();
-}
-
 function deleteCourse(e) {
-	e.preventDefault();
 	if (e.target.classList.contains("cart__btn-delete")) {
 		const idCourse = e.target.getAttribute("data-id");
-
 		arrayInfo = arrayInfo.filter((e) => e.id !== idCourse);
-		showCourse();
+		syncStorage();
+		showCourses();
 	}
+}
+
+function syncStorage() {
+	infoString = JSON.stringify(arrayInfo);
+
+	localStorage.setItem("courses", infoString);
 }
