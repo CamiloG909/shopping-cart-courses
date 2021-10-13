@@ -65,6 +65,7 @@ body
 	background-color: $green
 	box-shadow: $shadow
 	&__container
+		position: relative
 		inline-size: 95%
 		max-inline-size: 1300px
 		block-size: 100%
@@ -101,13 +102,15 @@ body
 .cart
 	display: none
 	position: absolute
-	inset-inline-end: 2.5%
-	inset-block-start: 70px
+	inset-inline-end: 0
+	inset-block-start: 69px
 	padding: 10px
 	inline-size: 400px
 	border-radius: 5px
 	background-color: $gray
 	box-shadow: $shadow
+	table tbody img
+		user-select: none
 	&__arrow
 		display: none
 		font-size: 3.3rem
@@ -330,3 +333,7 @@ body
 					background-color: #00000027
 	&__logo
 		block-size: 150px
+
+// Global class
+.show
+	display: block

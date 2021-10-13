@@ -16,21 +16,23 @@ function loadEventListeners() {
 }
 
 function showCartBox() {
-	const arrowDiv = document.querySelector("#arrow-cart");
+	// Show or hide div arrow
+	document.querySelector("#arrow-cart").classList.toggle("show");
+	cart.classList.toggle("show");
 
-	if (cart.style.display === "" || cart.style.display === "none") {
-		arrowDiv.style.display = "block";
-		cart.style.display = "block";
+	// Show button hover
+	const iconCart = showCartBtn.firstChild.nextElementSibling;
+	if (iconCart.style.backgroundColor === "") {
+		iconCart.style.backgroundColor = "#0000001c";
 	} else {
-		arrowDiv.style.display = "none";
-		cart.style.display = "none";
+		iconCart.style.backgroundColor = null;
 	}
 }
 
 function addCourse(e) {
 	e.preventDefault();
 
-	if (e.target.classList.contains("agregar-carrito")) {
+	if (e.target.classList.contains("card-course__btn-add")) {
 		const courseCard = e.target.parentElement.parentElement;
 		getInfoCourse(courseCard);
 	}
@@ -38,10 +40,10 @@ function addCourse(e) {
 
 function getInfoCourse(card) {
 	const infoCourse = {
-		id: card.querySelector("a").getAttribute("data-id"),
+		id: card.querySelector("div #add-cart-btn").getAttribute("data-id"),
 		img: card.querySelector("img").src,
-		title: card.querySelector(".info-card h4").textContent,
-		price: card.querySelector(".info-card .precio span").textContent,
+		title: card.querySelector("div .card-course__title").textContent,
+		price: "$15",
 		amount: 1,
 	};
 
@@ -93,7 +95,7 @@ function clearCartButton(e) {
 
 function deleteCourse(e) {
 	e.preventDefault();
-	if (e.target.classList.contains("borrar-curso")) {
+	if (e.target.classList.contains("cart__btn-delete")) {
 		const idCourse = e.target.getAttribute("data-id");
 
 		arrayInfo = arrayInfo.filter((e) => e.id !== idCourse);
