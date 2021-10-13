@@ -1,4 +1,4 @@
-const showCart = document.querySelector("#show-cart");
+const showCartBtn = document.querySelector("#show-cart");
 const cart = document.querySelector(".cart");
 const containerCart = document.querySelector("#list-cart tbody");
 const clearCartBtn = document.querySelector("#clear-cart");
@@ -8,28 +8,23 @@ let arrayInfo = [];
 loadEventListeners();
 
 function loadEventListeners() {
-	showCart.addEventListener("mouseenter", showCartContainer);
-	showCart.addEventListener("mouseleave", hiddenCartContainer);
-	cart.addEventListener("mouseenter", showCartContainer);
-	cart.addEventListener("mouseleave", hiddenCartContainer);
-	showCart.addEventListener("click", showCartContainer);
-	showCart.addEventListener("click", hiddenCartContainer);
-	cart.addEventListener("click", showCartContainer);
-	cart.addEventListener("click", hiddenCartContainer);
+	showCartBtn.addEventListener("click", showCartBox);
 
 	listCourses.addEventListener("click", addCourse);
 	clearCartBtn.addEventListener("click", clearCartButton);
 	cart.addEventListener("click", deleteCourse);
 }
 
-function showCartContainer() {
-	cart.style.display = "block";
-	document.querySelector("#arrow-cart").style.display = "block";
-}
+function showCartBox() {
+	const arrowDiv = document.querySelector("#arrow-cart");
 
-function hiddenCartContainer() {
-	cart.style.display = "none";
-	document.querySelector("#arrow-cart").style.display = "none";
+	if (cart.style.display === "" || cart.style.display === "none") {
+		arrowDiv.style.display = "block";
+		cart.style.display = "block";
+	} else {
+		arrowDiv.style.display = "none";
+		cart.style.display = "none";
+	}
 }
 
 function addCourse(e) {
